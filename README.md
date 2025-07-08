@@ -1,4 +1,4 @@
-# コピー＆ペーストゲーム - ChatGPTだけでゲームを作ってみた
+# コピー＆ペーストゲーム - ChatGPTだけでゲームを作った
 
 ## 概要
 
@@ -21,14 +21,14 @@
 
 ## ファイル構成
 
-- ［`index.html`］(index.html)：ゲームの画面を含むファイル。  
-- ［`script.js`］(script.js)：ゲームの動作を決定するファイル。
-- ［`style.css`］(style.css)：ゲームのデザインが入っているファイル。
+-  [`index.html`](./index.html)：ゲームの画面を含むファイル。  
+-  [`script.js`](./script.js)：ゲームの動作を決定するファイル。
+-  [`style.css`](./style.css)：ゲームのデザインが入っているファイル。
 ---
 
 ## カスタマイズ
 
-- 長文やフレーズは［`script.js`］(script.js)内のJavaScriptコードの配列`paragraphs`と`requiredPhrases`を編集してください。  
+- 長文やフレーズは[script.js](./script.js) 内のJavaScriptコードの配列`paragraphs`と`requiredPhrases`を編集してください。  
 - フレーズの順番や難易度を調整可能です。
 
 ---
@@ -42,13 +42,13 @@
 
 ## ライセンス
 
-［MIT License］(LICENSE)
+[MIT License](./LICENSE)
 
 ---
 
 ## 作者
 
-- 作成者：KaziKi（あなたの名前に置き換えてください）  
+- 作成者：KaziKi
 - GitHubリポジトリ：[https://kazi-ki.github.io/Copy-paste/](https://kazi-ki.github.io/Copy-paste/)
 
 ---
