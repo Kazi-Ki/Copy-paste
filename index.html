@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>コピー＆ペーストバトル</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>コピー＆ペーストバトル</h1>
+  <div id="game-container">
+    <h2>長文テキスト</h2>
+    <div id="long-text" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; height: 250px; overflow-y: auto; background: #fff;">
+      <!-- 長文表示 -->
+    </div>
+
+    <h2>ペースト欄</h2>
+    <textarea id="paste-input" rows="3" placeholder="ここにコピーした文章を貼り付けてください"></textarea>
+
+    <button id="submit-btn">送信</button>
+
+    <div id="message" style="margin-top: 10px; font-weight: bold;"></div>
+
+    <div id="timer" style="margin-top: 10px;">タイム: 0.00 秒</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
