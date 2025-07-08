@@ -41,7 +41,24 @@ const requiredPhrases = [
   "効率的な作業を身につけ、皆さんの今後の学習や仕事に役立てていきましょう。"
 ];
 
-// Fisher-Yatesシャッフル関数
+// DOM要素取得
+const longTextDiv = document.getElementById("long-text");
+const pasteInput = document.getElementById("paste-input");
+const submitBtn = document.getElementById("submit-btn");
+const clearBtn = document.getElementById("clear-btn");
+const messageDiv = document.getElementById("message");
+const timerDiv = document.getElementById("timer");
+
+const countInput = document.getElementById("count-input");
+const startBtn = document.getElementById("start-btn");
+const gameArea = document.getElementById("game-area");
+
+let requiredCount = 5; // クリアに必要な正解回数（初期値）
+let currentIndex = 0;
+let startTime = null;
+let timerInterval = null;
+
+// 配列シャッフル関数（Fisher-Yates）
 function shuffleArray(arr) {
   for(let i = arr.length -1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -49,66 +66,55 @@ function shuffleArray(arr) {
   }
 }
 
-let currentIndex = 0;
-let startTime = null;
-let timerInterval = null;
-
-const longTextDiv = document.getElementById("long-text");
-const pasteInput = document.getElementById("paste-input");
-const submitBtn = document.getElementById("submit-btn");
-const messageDiv = document.getElementById("message");
-const timerDiv = document.getElementById("timer");
-
+// タイマー開始
 function startTimer() {
   startTime = Date.now();
   timerInterval = setInterval(() => {
     const elapsed = (Date.now() - startTime) / 1000;
     timerDiv.textContent = `タイム: ${elapsed.toFixed(2)} 秒`;
-  }, 100);
+  }, 50);
 }
 
+// タイマー停止
 function stopTimer() {
   clearInterval(timerInterval);
 }
 
-function showMessage(msg, color = "black") {
+// メッセージ表示
+function showMessage(msg, color="black") {
   messageDiv.textContent = msg;
   messageDiv.style.color = color;
 }
 
+// ゲーム初期化・開始
 function initGame() {
-  // 段落シャッフル
+  // 長文はシャッフルして表示（文章は接続語を外してあるので自然に読める）
   const shuffledParagraphs = [...paragraphs];
   shuffleArray(shuffledParagraphs);
+  longTextDiv.textContent = shuffledParagraphs.join("\n\n");
 
-  shuffleArray(requiredPhrases);
-
-
-  // 改行2つでつなげて長文表示
-  longTextDiv.textContent = shuffledParagraphs.join('\n\n');
+  // コピーさせるフレーズは順番そのままか、必要ならここでシャッフルも可
+  // shuffleArray(requiredPhrases);
 
   currentIndex = 0;
   pasteInput.value = "";
   pasteInput.disabled = false;
   submitBtn.disabled = false;
+  gameArea.style.display = "block";
   showMessage(`「${requiredPhrases[currentIndex]}」をコピーしてペーストしてください。`, "blue");
   timerDiv.textContent = "タイム: 0.00 秒";
   startTimer();
   pasteInput.focus();
 }
 
-submitBtn.addEventListener("click", checkInput);
-pasteInput.addEventListener("keydown", (e) => {
-  if(e.key === "Enter") checkInput();
-});
-
+// 入力チェック
 function checkInput() {
   const input = pasteInput.value.trim();
   if(input === requiredPhrases[currentIndex]) {
     currentIndex++;
-    if(currentIndex >= requiredPhrases.length) {
+    if(currentIndex >= requiredCount) {
       stopTimer();
-      showMessage("全部クリア！おめでとう！", "green");
+      showMessage(`${requiredCount}回クリア！おめでとう！`, "green");
       pasteInput.disabled = true;
       submitBtn.disabled = true;
     } else {
@@ -121,13 +127,24 @@ function checkInput() {
   }
 }
 
-const clearBtn = document.getElementById("clear-btn");
-
+// イベント登録
+submitBtn.addEventListener("click", checkInput);
+pasteInput.addEventListener("keydown", e => {
+  if(e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    checkInput();
+  }
+});
 clearBtn.addEventListener("click", () => {
   pasteInput.value = "";
   pasteInput.focus();
-  showMessage("入力欄をクリアしました", "black");
 });
-
-
-window.onload = initGame;
+startBtn.addEventListener("click", () => {
+  const val = parseInt(countInput.value);
+  if(!isNaN(val) && val > 0) {
+    requiredCount = val;
+    initGame();
+  } else {
+    alert("1以上の数字を入力してください");
+  }
+});
