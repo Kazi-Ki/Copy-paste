@@ -60,19 +60,17 @@ function shuffleArray(arr) {
   }
 }
 
+
 // タイマー開始
 function startTimer() {
   startTime = Date.now();
   timerInterval = setInterval(() => {
     const elapsed = (Date.now() - startTime) / 1000;
-    timerDiv.textContent = `タイム: ${elapsed.toFixed(2)} 秒`;
-  }, 50);
-}
-
-// タイマー停止
+    timerDiv.textContent = `y
 function stopTimer() {
   clearInterval(timerInterval);
 }
+
 
 // メッセージ表示
 function showMessage(msg, color="black") {
@@ -102,20 +100,20 @@ function initGame() {
 // 入力チェック
 function checkInput() {
   const input = pasteInput.value.trim();
-  if(input === requiredPhrases[currentIndex]) {
+  if (input === shuffledPhrases[currentIndex]) {
     currentIndex++;
-    if(currentIndex >= requiredCount) {
-      stopTimer();
+    if (currentIndex >= requiredCount) {
+      stopTimer(); 
       showMessage(`${requiredCount}回クリア！おめでとう！`, "green");
       pasteInput.disabled = true;
       submitBtn.disabled = true;
     } else {
-      showMessage(`OK！次は「${requiredPhrases[currentIndex]}」をコピーしてください。`, "green");
+      showMessage(`OK！次は「${shuffledPhrases[currentIndex]}」をコピーしてください。`, "green");
       pasteInput.value = "";
       pasteInput.focus();
     }
   } else {
-    showMessage(`違います！「${requiredPhrases[currentIndex]}」をコピーしてください。`, "red");
+    showMessage(`違います！「${shuffledPhrases[currentIndex]}」をコピーしてください。`, "red");
   }
 }
 
