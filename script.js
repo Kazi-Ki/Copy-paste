@@ -81,6 +81,9 @@ function initGame() {
   const shuffledParagraphs = [...paragraphs];
   shuffleArray(shuffledParagraphs);
 
+  shuffleArray(requiredPhrases);
+
+
   // 改行2つでつなげて長文表示
   longTextDiv.textContent = shuffledParagraphs.join('\n\n');
 
