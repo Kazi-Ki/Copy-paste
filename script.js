@@ -118,4 +118,13 @@ function checkInput() {
   }
 }
 
+const clearBtn = document.getElementById("clear-btn");
+
+clearBtn.addEventListener("click", () => {
+  pasteInput.value = "";
+  pasteInput.focus();
+  showMessage("入力欄をクリアしました", "black");
+});
+
+
 window.onload = initGame;
