@@ -35,7 +35,7 @@ const requiredPhrases = [
 ];
 
 
-// DOM取得
+// DOM要素取得
 const longTextDiv = document.getElementById("long-text");
 const pasteInput = document.getElementById("paste-input");
 const submitBtn = document.getElementById("submit-btn");
@@ -47,63 +47,73 @@ const countInput = document.getElementById("count-input");
 const startBtn = document.getElementById("start-btn");
 const gameArea = document.getElementById("game-area");
 
+// 状態変数
 let requiredCount = 5;
 let currentIndex = 0;
 let startTime = null;
 let timerInterval = null;
+let shuffledPhrases = [];
 
-// シャッフル関数
+// 配列をシャッフル（Fisher-Yates）
 function shuffleArray(arr) {
-  for(let i = arr.length -1; i > 0; i--) {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
-
 
 // タイマー開始
 function startTimer() {
   startTime = Date.now();
   timerInterval = setInterval(() => {
     const elapsed = (Date.now() - startTime) / 1000;
-    timerDiv.textContent = `y
+    timerDiv.textContent = `タイム: ${elapsed.toFixed(2)} 秒`;
+  }, 50);
+}
+
+// タイマー停止
 function stopTimer() {
   clearInterval(timerInterval);
 }
 
-
 // メッセージ表示
-function showMessage(msg, color="black") {
+function showMessage(msg, color = "black") {
   messageDiv.textContent = msg;
   messageDiv.style.color = color;
 }
 
 // ゲーム開始処理
 function initGame() {
+  // 長文表示シャッフル
   const shuffledParagraphs = [...paragraphs];
   shuffleArray(shuffledParagraphs);
   longTextDiv.textContent = shuffledParagraphs.join("\n\n");
 
+  // 出題順をシャッフル
+  shuffledPhrases = [...requiredPhrases];
+  shuffleArray(shuffledPhrases);
+
+  // 初期化
   currentIndex = 0;
   pasteInput.value = "";
   pasteInput.disabled = false;
   submitBtn.disabled = false;
   gameArea.style.display = "block";
 
-  showMessage(`「${requiredPhrases[currentIndex]}」をコピーしてペーストしてください。`, "blue");
+  showMessage(`「${shuffledPhrases[currentIndex]}」をコピーしてペーストしてください。`, "blue");
   timerDiv.textContent = "タイム: 0.00 秒";
 
   startTimer();
   pasteInput.focus();
 }
 
-// 入力チェック
+// 正誤チェック
 function checkInput() {
   const input = pasteInput.value.trim();
   if (input === shuffledPhrases[currentIndex]) {
     currentIndex++;
     if (currentIndex >= requiredCount) {
-      stopTimer(); 
+      stopTimer(); // ✅ タイマー停止
       showMessage(`${requiredCount}回クリア！おめでとう！`, "green");
       pasteInput.disabled = true;
       submitBtn.disabled = true;
@@ -117,21 +127,24 @@ function checkInput() {
   }
 }
 
-// イベント登録
+// イベント設定
 submitBtn.addEventListener("click", checkInput);
+
 pasteInput.addEventListener("keydown", e => {
-  if(e.key === "Enter" && !e.shiftKey) {
+  if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     checkInput();
   }
 });
+
 clearBtn.addEventListener("click", () => {
   pasteInput.value = "";
   pasteInput.focus();
 });
+
 startBtn.addEventListener("click", () => {
   const val = parseInt(countInput.value);
-  if(!isNaN(val) && val > 0) {
+  if (!isNaN(val) && val > 0) {
     requiredCount = val;
     initGame();
   } else {
