@@ -3,29 +3,31 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>長文問題-日常生活</title>
+<title>長文問題-RTA</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h1>長文問題-コピペRTA</h1>
+<h1>コピー＆ペーストRTA</h1>
 
-<label for="count-input">何回でクリア？</label>
+<label for="count-input">何回連続正解でクリア？</label>
 <input type="number" id="count-input" value="5" min="1" />
 <button id="start-btn">ゲーム開始</button>
 
-<div id="game-area" style="display:none;">
-  <h2>長文</h2>
+<div id="game-area">
+  <h2>長文（自由にコピーしてください）</h2>
   <div id="long-text"></div>
 
   <label for="paste-input">コピーしたフレーズをペーストしてください</label>
   <textarea id="paste-input" rows="2"></textarea>
   <br />
   <button id="submit-btn">送信</button>
-  <button id="clear-btn">消去</button>
+  <button id="clear-btn">クリア</button>
 
   <div id="message"></div>
   <div id="timer"></div>
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
